@@ -107,7 +107,7 @@ function backCards() {
         imageBack.src = "images/" + cardImages[cardGenerator[i]];
         imageBack.classList.add("image-back");
         cardBack.appendChild(imageBack);
-        console.log("imagem " + i + " - " + cardImages[cardGenerator[i]]);
+        console.log("carta " + (i + 1) + " = " + cardImages[cardGenerator[i]]);
     }
 }
 
@@ -134,10 +134,12 @@ function colorChange() {
             colorArray[j].classList.remove("selected");
         }
         colorArray[j].onclick = function () {
-  
             currentImage = j;
-            console.log(colorArray[j]);
-            console.log(currentImage);
+            console.log("baralho: " + colorImages[currentImage]);
+            const divImage = document.querySelectorAll(".image-front");
+            for (let i = 0;i < divImage.length; i++){
+                divImage[i].src = "images/" + colorImages[currentImage];
+            }
             colorChange();
         }
     }
@@ -147,18 +149,18 @@ function generate() {
     for (let i = 0; i < 12; i++) {
         const oldPosition = position;
         position = get_rand(nums) - 1;
-        console.log("posição: " + position);
-        console.log("par: " + cardPair);
         if (cardPair >= 2) {
-            cardGenerator[position] = Math.floor(Math.random() * 52);
+            let randomNumber = Math.floor(Math.random() * 52);
+            while (cardGenerator.includes(randomNumber)) {
+                randomNumber = Math.floor(Math.random() * 52);
+            }
+            cardGenerator[position] = randomNumber;
             cardPair--;
         } else {
             cardGenerator[position] = cardGenerator[oldPosition];
             cardPair++;
         }
-        console.log("carta gerada: " + cardGenerator[position]);
     }
-    console.log("cartas geradas: " + cardGenerator);
 }
 
 function in_array(array, el) {
@@ -182,36 +184,31 @@ function play() {
     cardC = document.querySelectorAll(".card");
     for (let j = 0; j < cardC.length; j++) {
         cardC[j].onclick = function () {
-            this.classList.add("hover");
-            if (card1 == null) {
-                card1 = this.dataset.index;
-            } else {
-                card2 = this.dataset.index;
+            if (!this.classList.contains("hover")) {
+                this.classList.add("hover");
+                if (card1 == null) {
+                    card1 = this.dataset.index;
+                } else {
+                    card2 = this.dataset.index;
+                }
+                check();
             }
-            check();
         };
     }
 
 }
-let jogadas = 0;
+
 function check() {
-    console.log("carta1 :" + cardGenerator[card1]);
-    console.log("carta2 :" + cardGenerator[card2]);
-    console.log("cartas :" + (card1 != null && card2 != null));
-    console.log(cardC[card1]);
-    console.log(cardC[card2]);
-    console.log(card1);
-    console.log(card2);
-    console.log(cardC);
-    console.log("Jogadas: " + jogadas);
+    console.log("carta1 :" + cardImages[cardGenerator[card1]]);
+    console.log("carta2 :" + cardImages[cardGenerator[card2]]);
     const div1 = cardC[card1];
     const div2 = cardC[card2];
-
-    if (cardGenerator[card1] == cardGenerator[card2] && card2 != null) {
-        jogadas++;
+    const hovers = document.querySelectorAll(".hover");
+    console.log("cartas viradas: " + hovers.length);
+    if (cardGenerator[card1] == cardGenerator[card2] && card1 != null && card2 != null) {
         card1 = null;
         card2 = null;
-        if (jogadas >= 6) {
+        if (hovers.length >= 12) {
             alert("Ganhou!!")
             reset();
         }
@@ -219,12 +216,10 @@ function check() {
         setTimeout(function () {
             div1.classList.remove("hover");
             div2.classList.remove("hover");
-        }, 1500);
+        }, 1000);
         card1 = null;
         card2 = null;
     }
-
-
 }
 
 function reset() {
@@ -233,11 +228,9 @@ function reset() {
     cardGenerator = [];
     position = 0;
     cardPair = 2;
-    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     gen_nums = [];
     card1 = null;
     card2 = null;
-    jogadas = 0;
     cardC = [];
     confirm("Novo Jogo??")
     init();
@@ -246,5 +239,4 @@ function reset() {
 init();
 
 const newGame = document.querySelector(".header button");
-console.log(newGame);
 newGame.addEventListener("click", reset);

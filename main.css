@@ -3,9 +3,11 @@
     --white: white;
     --gray: #eee;
     --square: rgb(68, 68, 131);
+    --border: greenyellow;
 }
 
 * {
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: var(--black);
     font-family: sans-serif;
@@ -21,7 +23,12 @@ html, body {
 
 body {
     background-color: var(--gray);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     overflow: auto;
     background-image: url("images/dark-green.jpg");
@@ -41,10 +48,25 @@ h1 {
     font-weight: bold;
     text-align: left;
     padding-bottom: 10px;
+    white-space: nowrap;
     color: var(--white);
 }
 
+button {
+    background-color: var(--border);
+    padding: 5px 15px;
+    border: 1px solid var(--black);
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    white-space: nowrap;
+    color: var(--black);
+    cursor: pointer;
+}
+
 .main {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
     height: 100%;
@@ -55,10 +77,13 @@ h1 {
 
 .game {
     max-width: 800px;
-    max-height: 90vh;
+    max-height: calc(90vh - 10px);
     width: calc(90vw - 10px);
     height: 100vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 
@@ -71,17 +96,23 @@ h1 {
 
 .card {
     /* perspective: 800px; */
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 25%;
     flex: 0 0 25%;
 }
 
 .flip-card {
+    -webkit-transition: 0.6s;
+    -o-transition: 0.6s;
     transition: 0.6s;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     position: relative;
 }
 
 .card-front, .card-back {
     display: block;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     position: absolute;
     left: 0;
@@ -90,10 +121,12 @@ h1 {
 
 .card-front {
     z-index: 2;
+    -webkit-transform: rotateY(0deg);
     transform: rotateY(0deg);
 }
 
 .card-back {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
@@ -103,6 +136,7 @@ h1 {
 }
 
 .card.hover .flip-card, .card.flip .flip-card {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
@@ -127,5 +161,6 @@ h1 {
     border: 3px solid white;
     border-radius: 5px;
     background-color: white;
+    -webkit-box-shadow: 2px 2px 10px white;
     box-shadow: 2px 2px 10px white;
 }
