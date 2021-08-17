@@ -240,3 +240,12 @@ init();
 
 const newGame = document.querySelector(".header button");
 newGame.addEventListener("click", reset);
+
+const exit = document.querySelector("#exit");
+exit.addEventListener("click", function(){
+    if (confirm('Quer mesmo sair?')) {
+        location.href='/';
+    } else {
+        return false;
+    }
+});
