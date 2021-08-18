@@ -271,18 +271,12 @@ function viewportSize() {
         viewPortWidth = document.getElementsByTagName('body')[0].clientWidth,
             viewPortHeight = document.getElementsByTagName('body')[0].clientHeight
     }
-    if (viewPortWidth > viewPortHeight) {
-        // game.style.width = "calc(90vw - 10px)";
-        // game.style.height = "100vw";
+    if (viewPortWidth > (viewPortHeight * (720 / 825))) {
         game.style.width = "calc(88vh * (720 / 825))";
         game.style.height = "88vh";
-        console.log("width!!");
     } else {
-        game.style.width = "calc(90vw * (720 / 825))";
-        game.style.height = "90vw";
-        // game.style.width = "calc(100vh - 175px)";
-        // game.style.height = "calc(100vh - 110px)";
-        console.log("height!!");
+        game.style.width = "89vw";
+        game.style.height = "calc(89vw / (720 / 825))";
     }
 }
 
